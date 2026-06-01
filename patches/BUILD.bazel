@@ -1,0 +1,4 @@
+exports_files([
+    "bzip2-windows-header-case.patch",
+    "ring-windows-aarch64-clang-cl.patch",
+])

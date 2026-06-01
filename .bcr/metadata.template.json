@@ -1,0 +1,16 @@
+{
+  "homepage": "https://github.com/hermeticbuild/codesign.bzl",
+  "maintainers": [
+    {
+      "name": "David Zbarsky",
+      "email": "dzbarsky@gmail.com",
+      "github": "dzbarsky"
+    }
+  ],
+  "repository": [
+    "github:hermeticbuild/codesign.bzl"
+  ],
+  "versions": [],
+  "yanked_versions": {}
+}
+

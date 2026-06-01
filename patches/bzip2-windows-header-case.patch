@@ -1,0 +1,13 @@
+diff --git a/bzlib.h b/bzlib.h
+index 3ab3dc0..7fba598 100644
+--- a/bzlib.h
++++ b/bzlib.h
+@@ -76,7 +76,7 @@
+ #endif
+ 
+ #ifdef _WIN32
+-#   include <windows.h>
++#   include <Windows.h>
+ #   ifdef small
+       /* windows.h define small to char */
+ #      undef small
