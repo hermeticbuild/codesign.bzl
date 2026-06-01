@@ -13,16 +13,20 @@ http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_
         name = "codesign_%s_%s" % (os, cpu),
         downloaded_file_path = "codesign" + extension,
         executable = True,
-        urls = ["https://github.com/hermeticbuild/codesign.bzl/releases/download/v0.0.1/codesign_%s_%s%s" % (os, cpu, extension)],
+        integrity = integrity,
+        urls = ["https://github.com/hermeticbuild/codesign.bzl/releases/download/prebuilts-v0.0.9/codesign_%s_%s%s" % (
+            os,
+            cpu,
+            extension,
+        )],
     )
-    # TODO: add integrity values once the first release artifacts have been pushed.
-    for os, cpu, extension in [
-        ("darwin", "arm64", ""),
-        ("darwin", "amd64", ""),
-        ("linux", "arm64", ""),
-        ("linux", "amd64", ""),
-        ("windows", "arm64", ".exe"),
-        ("windows", "amd64", ".exe"),
+    for os, cpu, extension, integrity in [
+        ("darwin", "arm64", "", "sha256-DFBsXWXxgcJ5wPI/PqHNqbjcnDimCSKyF6gPXeEWljQ="),
+        ("darwin", "amd64", "", "sha256-ZLA1pqQJ4N8BVmRnP/+e4VSIi1epEJMeCftxgHADVg0="),
+        ("linux", "arm64", "", "sha256-llGp7yNl2bfyzUht+fjEP32TW16e/ShUnjP+9q/GrVE="),
+        ("linux", "amd64", "", "sha256-nvTUJ+NaTtlfXHhXd9GtUcDl7SXPGZHvhKmryTOl5d4="),
+        ("windows", "arm64", ".exe", "sha256-KP9c3QddwnrsTM0ChlEq9ZkGopYu1Sp8FtYEx/FBFcw="),
+        ("windows", "amd64", ".exe", "sha256-u6I77WI4eBA+RR3xNoWY2cqLLdrhJEnDzndRj8l7nKc="),
     ]
 ]
 
