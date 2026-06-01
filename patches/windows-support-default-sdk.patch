@@ -1,0 +1,69 @@
+diff --git a/MODULE.bazel b/MODULE.bazel
+index dcadb8e..87e3294 100644
+--- a/MODULE.bazel
++++ b/MODULE.bazel
+@@ -22,6 +22,10 @@ use_repo(msvc_runtime, "msvc_runtime")
+ windows_sdk = use_extension("//windows:extensions.bzl", "windows_sdk")
+ windows_sdk.configure(
+     transformations = {
++        "base/c/Include/10.0.26100.0/shared/driverspecs.h": "base/c/Include/10.0.26100.0/shared/DriverSpecs.h",
++        "base/c/Include/10.0.26100.0/shared/specstrings.h": "base/c/Include/10.0.26100.0/shared/SpecStrings.h",
++        "base/c/Include/10.0.26100.0/um/ole2.h": "base/c/Include/10.0.26100.0/um/Ole2.h",
++        "base/c/Include/10.0.26100.0/um/olectl.h": "base/c/Include/10.0.26100.0/um/OleCtl.h",
+         "**/*.h": "lowercase",
+         "**/*.lib": "lowercase",
+         "**/*.Lib": "lowercase",
+diff --git a/windows/private/extensions/msvc_runtime.bzl b/windows/private/extensions/msvc_runtime.bzl
+index 19ad512..0bf7052 100644
+--- a/windows/private/extensions/msvc_runtime.bzl
++++ b/windows/private/extensions/msvc_runtime.bzl
+@@ -326,10 +326,13 @@ _msvc_runtime_repository = repository_rule(
+ 
+ def _read_configure_tag(module_ctx):
+     root_tags = []
++    self_tags = []
+     non_root_tags = []
+     for mod in module_ctx.modules:
+         if mod.is_root:
+             root_tags.extend(mod.tags.configure)
++        elif mod.name == "windows_support":
++            self_tags.extend(mod.tags.configure)
+         else:
+             non_root_tags.extend(mod.tags.configure)
+ 
+@@ -337,6 +340,8 @@ def _read_configure_tag(module_ctx):
+         fail("Only one msvc_runtime.configure(...) tag is supported in the root module.")
+     if root_tags:
+         return root_tags[0]
++    if self_tags:
++        return self_tags[0]
+     if non_root_tags:
+         return non_root_tags[0]
+     return struct(
+diff --git a/windows/private/extensions/windows_sdk.bzl b/windows/private/extensions/windows_sdk.bzl
+index 6c3091d..4de447e 100644
+--- a/windows/private/extensions/windows_sdk.bzl
++++ b/windows/private/extensions/windows_sdk.bzl
+@@ -292,10 +292,13 @@ _windows_sdk_repository = repository_rule(
+ 
+ def _read_configure_tag(module_ctx):
+     root_tags = []
++    self_tags = []
+     non_root_tags = []
+     for mod in module_ctx.modules:
+         if mod.is_root:
+             root_tags.extend(mod.tags.configure)
++        elif mod.name == "windows_support":
++            self_tags.extend(mod.tags.configure)
+         else:
+             non_root_tags.extend(mod.tags.configure)
+ 
+@@ -303,6 +306,8 @@ def _read_configure_tag(module_ctx):
+         fail("Only one windows_sdk.configure(...) tag is supported in the root module.")
+     if root_tags:
+         return root_tags[0]
++    if self_tags:
++        return self_tags[0]
+     if non_root_tags:
+         return non_root_tags[0]
+     return struct(

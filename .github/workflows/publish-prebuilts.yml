@@ -1,0 +1,58 @@
+name: Publish Prebuilts
+
+on:
+  push:
+    tags:
+      - "prebuilts-v*.*.*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Prebuilts tag to publish, for example prebuilts-v0.0.1
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve prebuilts tag
+        id: prebuilts_tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            tag="${{ inputs.release_tag }}"
+          else
+            tag="${GITHUB_REF_NAME}"
+          fi
+
+          if [[ ! "${tag}" =~ ^prebuilts-v[0-9]+\.[0-9]+\.[0-9]+([-.].*)?$ ]]; then
+            echo "Expected a prebuilts tag like prebuilts-v0.0.1, got '${tag}'" >&2
+            exit 1
+          fi
+
+          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: .github/workflows/build_release.sh
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.prebuilts_tag.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: codesign ${{ steps.prebuilts_tag.outputs.tag }}
+          files: |
+            codesign_*
+            SHA256.txt
+          overwrite_files: false
+          draft: false
+          prerelease: false
+          make_latest: false
