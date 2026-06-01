@@ -1,5 +1,5 @@
 module(
-    name = "codesign",
+    name = "codesign.bzl",
     version = "0.0.1",
 )
 

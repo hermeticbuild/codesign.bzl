@@ -1,8 +1,14 @@
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
 
 alias(
     name = "codesign",
     actual = "@crates//:apple-codesign__rcodesign",
+)
+
+build_test(
+    name = "codesign_build_test",
+    targets = [":codesign"],
 )
 
 [
