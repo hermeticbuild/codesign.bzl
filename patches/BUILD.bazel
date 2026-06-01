@@ -1,0 +1,4 @@
+exports_files([
+    "ring-windows-aarch64-clang-cl.patch",
+    "windows-support-default-sdk.patch",
+])
