@@ -1,0 +1,8 @@
+load("//private:defs.bzl", "declare_codesign_toolchains")
+
+toolchain_type(
+    name = "toolchain_type",
+    visibility = ["//visibility:public"],
+)
+
+declare_codesign_toolchains()
