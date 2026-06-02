@@ -10,6 +10,7 @@ bcr_test_module:
       bazel: ${{ bazel }}
       build_flags:
         - "--experimental_remote_downloader="
+        - "--bes_backend="
       build_targets:
         - "//..."
 
