@@ -37,15 +37,8 @@ bazel_dep(name = "bzip2", version = "1.0.8.bcr.3", dev_dependency = True)
 bazel_dep(name = "rules_cc", version = "0.2.17", dev_dependency = True)
 bazel_dep(name = "llvm", version = "0.7.7", dev_dependency = True)
 bazel_dep(name = "rules_rs", version = "0.0.83", dev_dependency = True)
-bazel_dep(name = "windows_support", version = "0.1.8", dev_dependency = True)
+bazel_dep(name = "windows_support", version = "0.2.0", dev_dependency = True)
 bazel_dep(name = "xz", version = "5.4.5.bcr.8", dev_dependency = True)
-
-single_version_override(
-    module_name = "windows_support",
-    patch_strip = 1,
-    patches = ["//patches:windows-support-default-sdk.patch"],
-    version = "0.1.8",
-)
 
 # TODO(archangelx360): remove once https://github.com/hermeticbuild/hermetic-llvm/pull/187 is merged
 archive_override(
